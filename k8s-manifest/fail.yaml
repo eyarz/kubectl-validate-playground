@@ -1,0 +1,11 @@
+apiVersion: v1
+# failed to retrieve validator: kind pod not found in v1 groupversion
+kind: pod
+metadata:
+  name: nginx
+spec:
+  containers:
+  - name: nginx
+    image: nginx:1.14.2
+    ports:
+    - containerPort: 80
