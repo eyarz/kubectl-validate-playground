@@ -1,12 +1,12 @@
 name: kubectl-validate
 on:
-  workflow_dispatch:
-    inputs:
-      path:
-        required: true  
-  # pull_request:
-  #   branches:
-  #     - main
+  # workflow_dispatch:
+  #   inputs:
+  #     path:
+  #       required: true  
+  pull_request:
+    branches:
+      - main
   
 env:
   MANIFESTS_PATH: 'k8s-manifest/*.yaml'
@@ -28,5 +28,5 @@ jobs:
         run: go install sigs.k8s.io/kubectl-validate@latest
         
       - name: Run kubectl-validate
-        run: kubectl-validate ${{ inputs.path }}  --version $SCHEMA_VERSION | grep OK
-        # run: kubectl-validate $MANIFESTS_PATH --version $SCHEMA_VERSION | grep OK
+        # run: kubectl-validate ${{ inputs.path }}  --version $SCHEMA_VERSION | grep OK
+        run: kubectl-validate $MANIFESTS_PATH --version $SCHEMA_VERSION | grep OK
