@@ -1,0 +1,27 @@
+name: kubectl-validate
+on:
+  pull_request:
+    branches:
+      - main
+  
+env:
+  MANIFESTS_PATH: 'k8s-manifest/*.yaml'
+  SCHEMA_VERSION: '1.23'
+  
+jobs:
+  k8sManifestsValidation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo content
+        uses: actions/checkout@v3
+        
+      - name: Setup go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.20'
+          
+      - name: Install kubectl-validate
+        run: go install sigs.k8s.io/kubectl-validate@latest
+        
+      - name: Run kubectl-validate
+        run: kubectl-validate $MANIFESTS_PATH --version $SCHEMA_VERSION | grep OK
